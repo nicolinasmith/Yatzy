@@ -5,8 +5,119 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Yatzy"
         mc:Ignorable="d"
-        Title="YATZY" Height="450" Width="800">
-    <Grid Background="Green">
-        <Button Content="Roll dice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Margin="50,50,0,0" Click="RollDice_Click" Height="33" Background="White" BorderThickness="2"/>
+        Title="YATZY" Height="800" Width="800"
+        WindowState="Maximized">
+    <Grid Background="#FFEDC442">
+        <Label Content="YATZY" FontFamily="Stencil" FontSize="45" HorizontalContentAlignment="Center"></Label>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <Button Content="Rules"  Width="50" Height="25"/>
+        <Button Content="Restart"  Width="50" Height="25"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="rollDiceButton" Content="Roll dice" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" Click="RollDice_Click" Height="33" Background="White" BorderThickness="2" Margin="10"/>
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Label Content="Number of rolls:"></Label>
+                    <Label x:Name="rollCounter" Content="0 of 3"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Height="74" Width="252">
+                    <StackPanel x:Name="diceContainer" Orientation="Horizontal">
+                        <Button x:Name="dice0" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="White" FontWeight="Bold"/>
+                        <Button x:Name="dice1" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="white" FontWeight="Bold"/>
+                        <Button x:Name="dice2" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="White" FontWeight="Bold"/>
+                        <Button x:Name="dice3" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="white" FontWeight="bold"/>
+                        <Button x:Name="dice4" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="white" FontWeight="Bold"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <Border Background="#FFED9E42" BorderBrush="Black" BorderThickness="1" Width="200" Height="600" CornerRadius="10" Margin="100 20 0 0">
+                <StackPanel x:Name="formContainer" Orientation="Vertical">
+                    <Label Content="Scoresheet" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="16"/>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Ones"/>
+                        <Button x:Name="ones" Width="50" Height="20" Background="White" Margin="0 0 0 0" Click="Ones_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Twos"/>
+                        <Button x:Name="twos" Width="50" Height="20" Background="White" Click="Twos_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Threes"/>
+                        <Button x:Name="threes" Width="50" Height="20" Background="White" Click="Threes_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Fours"/>
+                        <Button x:Name="fours" Width="50" Height="20" Background="White" Click="Fours_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Fives"/>
+                        <Button x:Name="fives" Width="50" Height="20" Background="White" Click="Fives_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Sixes"/>
+                        <Button x:Name="sixes" Width="50" Height="20" Background="White" Click="Sixes_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="Subscore:" FontWeight="Black"/>
+                        <Label Content="Bonus:"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="One pair"/>
+                        <Button x:Name="onePair" Width="50" Height="20" Background="White" Click="OnePair_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Two pair"/>
+                        <Button x:Name="twoPair" Width="50" Height="20" Background="White" Click="TwoPair_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Three of a kind"/>
+                        <Button x:Name="threeOfAKind" Width="50" Height="20" Background="White" Click="ThreeOfAKind_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Four of a kind"/>
+                        <Button x:Name="fourOfAKind" Width="50" Height="20" Background="White" Click="FourOfAKind_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Full house"/>
+                        <Button x:Name="fullHouse" Width="50" Height="20" Background="White" Click="FullHouse_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Small straight"/>
+                        <Button x:Name="smallStraight" Width="50" Height="20" Background="White" Click="SmallStraight_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Large straight"/>
+                        <Button x:Name="largeStraight" Width="50" Height="20" Background="White" Click="LargeStraight_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Yatzy"/>
+                        <Button x:Name="yatzy" Width="50" Height="20" Background="White" Click="Yatzy_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Chance"/>
+                        <Button x:Name="chance" Width="50" Height="20" Background="White" Click="Chance_Click"/>
+                    </StackPanel>
+                    <Separator/>
+                    <Label Content="Total score:" FontWeight="Bold"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
     </Grid>
 </Window>
