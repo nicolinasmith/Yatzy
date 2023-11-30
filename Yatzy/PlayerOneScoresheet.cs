@@ -48,6 +48,7 @@ namespace Yatzy
 
         public string TotalScore { get; set; }
 
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {

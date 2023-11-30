@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -65,7 +66,20 @@ namespace Yatzy
                 rollDiceButton.IsEnabled = false;
                 diceContainer.IsEnabled = false;
             }
+        }
 
+        private void NewRollDice()
+        {
+            rollDiceButton.IsEnabled = true;
+            diceContainer.IsEnabled = true;
+            rollDiceCounter = 0;
+            rollCounter.Content = $"{rollDiceCounter} of 3";
+
+            foreach(var dice in dices)
+            {
+                dice.IsChosen = false;
+                dice.Value = 0;
+            }
         }
 
         private void IsChosen_Click(object sender, RoutedEventArgs e)
@@ -75,7 +89,7 @@ namespace Yatzy
                 if (toggleButton.IsChecked == true)
                 {
                     int selectedIndex = (int)toggleButton.Tag;
-                    MessageBox.Show(selectedIndex.ToString());
+                    dices[selectedIndex].IsChosen = true;
                 }
                 else
                 {
@@ -84,168 +98,79 @@ namespace Yatzy
             }
         }
 
-        private void Ones_Click(object sender, RoutedEventArgs e)
+        private void CalculateOnesUppToSixes(int number, string stringNumber, object sender)
         {
             int points = 0;
             int diceCount = 0;
 
             foreach (var dice in dices)
             {
-                if (dice.Value == 1)
+                if (dice.Value == number)
                 {
                     diceCount++;
-                    points = diceCount * 1;
+                    points = diceCount * number;
                 }
             }
 
-            MessageBoxResult result = MessageBox.Show($"You have {diceCount} dice(s) with ones ({points} points). Save?", "Ones", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show($"You have {diceCount} dice(s) with ones ({points} points). Save?", "Yatzy", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                scoresheet.Ones = points.ToString();
-                //ones.Content = points.ToString();
+                typeof(PlayerOneScoresheet).GetProperty(stringNumber)?.SetValue(scoresheet, points.ToString());
+                NewRollDice();
+                
+                if (sender is Button button)
+                {
+                    button.IsEnabled = false;
+                }
             }
             else
             {
                 return;
             }
+
+        }
+
+        private void Ones_Click(object sender, RoutedEventArgs e)
+        {
+            int number = 1;
+            string stringNumber = "Ones";
+            CalculateOnesUppToSixes(number, stringNumber, sender);
         }
 
         private void Twos_Click(object sender, RoutedEventArgs e)
         {
-            int points = 0;
-            int diceCount = 0;
-
-            foreach (var dice in dices)
-            {
-                if (dice.Value == 2)
-                {
-                    diceCount++;
-                    points = diceCount * 2;
-                }
-            }
-
-            MessageBoxResult result = MessageBox.Show($"You have {diceCount} dice(s) with twos ({points} points). Save?", "Twos", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                scoresheet.Twos = points.ToString();
-                //twos.Content = points.ToString();
-            }
-            else
-            {
-                return;
-            }
+            int number = 2;
+            string stringNumber = "Twos";
+            CalculateOnesUppToSixes(number, stringNumber, sender);
         }
 
         private void Threes_Click(object sender, RoutedEventArgs e)
         {
-            int points = 0;
-            int diceCount = 0;
-
-            foreach (var dice in dices)
-            {
-                if (dice.Value == 3)
-                {
-                    diceCount++;
-                    points = diceCount * 3;
-                }
-            }
-
-            MessageBoxResult result = MessageBox.Show($"You have {diceCount} dice(s) with threes ({points} points). Save?", "Threes", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                scoresheet.Threes = points.ToString();
-                //threes.Content = points.ToString();
-            }
-            else
-            {
-                return;
-            }
-
+            int number = 3;
+            string stringNumber = "Threes";
+            CalculateOnesUppToSixes(number, stringNumber, sender);
         }
 
         private void Fours_Click(object sender, RoutedEventArgs e)
         {
-            int points = 0;
-            int diceCount = 0;
-
-            foreach (var dice in dices)
-            {
-                if (dice.Value == 4)
-                {
-                    diceCount++;
-                    points = diceCount * 4;
-                }
-            }
-
-            MessageBoxResult result = MessageBox.Show($"You have {diceCount} dice(s) with fours ({points} points). Save?", "Fours", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                scoresheet.Fours = points.ToString();
-                //fours.Content = points.ToString();
-            }
-            else
-            {
-                return;
-            }
-
+            int number = 4;
+            string stringNumber = "Fours";
+            CalculateOnesUppToSixes(number, stringNumber, sender);
         }
 
         private void Fives_Click(object sender, RoutedEventArgs e)
         {
-            int points = 0;
-            int diceCount = 0;
-
-            foreach (var dice in dices)
-            {
-                if (dice.Value == 5)
-                {
-                    diceCount++;
-                    points = diceCount * 5;
-                }
-            }
-
-            MessageBoxResult result = MessageBox.Show($"You have {diceCount} dice(s) with fives ({points} points). Save?", "Fives", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                scoresheet.Fives = points.ToString();
-                //fives.Content = points.ToString();
-            }
-            else
-            {
-                return;
-            }
+            int number = 5;
+            string stringNumber = "Fives";
+            CalculateOnesUppToSixes(number, stringNumber, sender);
         }
 
         private void Sixes_Click(object sender, RoutedEventArgs e)
         {
-            int points = 0;
-            int diceCount = 0;
-
-            foreach (var dice in dices)
-            {
-                if (dice.Value == 6)
-                {
-                    diceCount++;
-                    points = diceCount * 6;
-                }
-            }
-
-            MessageBoxResult result = MessageBox.Show($"You have {diceCount} dice(s) with sixes ({points} points). Save?", "Sixes", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                scoresheet.Sixes = points.ToString();
-                //sixes.Content = points.ToString();
-            }
-            else
-            {
-                return;
-            }
+            int number = 6;
+            string stringNumber = "Sixes";
+            CalculateOnesUppToSixes(number, stringNumber, sender);
         }
 
         private void OnePair_Click(object sender, RoutedEventArgs e)
@@ -539,7 +464,27 @@ namespace Yatzy
             {
                 return;
             }
+        }
 
+        private void CountSubscore_Click(object sender, RoutedEventArgs e)
+        {
+            if (scoresheet.Ones == null || scoresheet.Twos == null || scoresheet.Threes == null || scoresheet.Fours == null || scoresheet.Fives == null || scoresheet.Sixes == null)
+            {
+                MessageBox.Show("All options above need to have a value to calculate the subscore.");
+                return;
+            }
+
+            int subscore = int.Parse(scoresheet.Ones) + int.Parse(scoresheet.Twos) + int.Parse(scoresheet.Threes) + int.Parse(scoresheet.Fours) + int.Parse(scoresheet.Fives) + int.Parse(scoresheet.Sixes);
+            scoresheet.Subscore = subscore.ToString();
+
+            if (subscore > 62) 
+            { 
+                scoresheet.Bonus = 50.ToString();
+            }
+            else
+            {
+                scoresheet.Bonus = 0.ToString();
+            }
         }
 
         private void RestartButton_Click(object sender, RoutedEventArgs e)
