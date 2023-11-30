@@ -14,20 +14,23 @@
         <Button Content="Rules"  Width="50" Height="25"/>
         <Button x:Name="restartButton" Content="Restart"  Width="50" Height="25" Click="RestartButton_Click"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button x:Name="rollDiceButton" Content="Roll dice" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" Click="RollDice_Click" Height="33" Background="White" BorderThickness="2" Margin="10"/>
+                <Button x:Name="rollDiceButton" Content="Roll dices" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" Click="RollDice_Click" Height="33" Background="White" BorderThickness="2" Margin="10"/>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <Label Content="Number of rolls:"></Label>
-                    <Label x:Name="rollCounter" Content="0 of 3"></Label>
+                    <Label Content="Number of rolls:"/>
+                    <Label x:Name="rollCounter" Content="0 of 3"/>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Height="74" Width="252">
-                    <StackPanel x:Name="diceContainer" Orientation="Horizontal">
-                        <Button x:Name="dice0" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="White" FontWeight="Bold"/>
-                        <Button x:Name="dice1" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="white" FontWeight="Bold"/>
-                        <Button x:Name="dice2" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="White" FontWeight="Bold"/>
-                        <Button x:Name="dice3" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="white" FontWeight="bold"/>
-                        <Button x:Name="dice4" Width="40" Height="40" Margin="5" Click="IsChosen_Click" Background="white" FontWeight="Bold"/>
-                    </StackPanel>
-                </StackPanel>
+                <ListBox x:Name="diceContainer" Height="80" Width="300" BorderThickness="0" Background="#FFEDC442">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ToggleButton Width="40" Height="40" Click="IsChosen_Click" Background="White" FontWeight="Bold" Content="{Binding Value}" IsHitTestVisible="True" Tag="{Binding Index}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
 
             <Border Background="#FFED9E42" BorderBrush="Black" BorderThickness="1" Width="200" Height="600" CornerRadius="10" Margin="100 20 0 0">
@@ -37,7 +40,7 @@
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Ones" Width="100"/>
-                        <Button x:Name="ones" Width="50" Height="20" Background="White" Margin="0 0 0 0" Click="Ones_Click"/>
+                        <Button Width="50" Height="20" Content="{Binding Ones}" Background="White" Click="Ones_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
@@ -47,22 +50,22 @@
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Threes" Width="100"/>
-                        <Button x:Name="threes" Width="50" Height="20" Background="White" Click="Threes_Click"/>
+                        <Button Content="{Binding Threes}" Width="50" Height="20" Background="White" Click="Threes_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Fours" Width="100"/>
-                        <Button x:Name="fours" Width="50" Height="20" Background="White" Click="Fours_Click"/>
+                        <Button Content="{Binding Fours}" Width="50" Height="20" Background="White" Click="Fours_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Fives" Width="100"/>
-                        <Button x:Name="fives" Width="50" Height="20" Background="White" Click="Fives_Click"/>
+                        <Button Content="{Binding Fives}" Width="50" Height="20" Background="White" Click="Fives_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Sixes" Width="100"/>
-                        <Button x:Name="sixes" Width="50" Height="20" Background="White" Click="Sixes_Click"/>
+                        <Button Content="{Binding Sixes}" Width="50" Height="20" Background="White" Click="Sixes_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Vertical">
@@ -72,47 +75,47 @@
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="One pair" Width="100"/>
-                        <Button x:Name="onePair" Width="50" Height="20" Background="White" Click="OnePair_Click"/>
+                        <Button Content="{Binding OnePair}" Width="50" Height="20" Background="White" Click="OnePair_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Two pair" Width="100"/>
-                        <Button x:Name="twoPair" Width="50" Height="20" Background="White" Click="TwoPair_Click"/>
+                        <Button Content="{Binding TwoPairs}" Width="50" Height="20" Background="White" Click="TwoPair_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Three of a kind" Width="100"/>
-                        <Button x:Name="threeOfAKind" Width="50" Height="20" Background="White" Click="ThreeOfAKind_Click"/>
+                        <Button Content="{Binding ThreeOfAKind}" Width="50" Height="20" Background="White" Click="ThreeOfAKind_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Four of a kind" Width="100"/>
-                        <Button x:Name="fourOfAKind" Width="50" Height="20" Background="White" Click="FourOfAKind_Click"/>
+                        <Button Content="{Binding FourOfAKind}" Width="50" Height="20" Background="White" Click="FourOfAKind_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Full house" Width="100"/>
-                        <Button x:Name="fullHouse" Width="50" Height="20" Background="White" Click="FullHouse_Click"/>
+                        <Button Content="{Binding FullHouse}" Width="50" Height="20" Background="White" Click="FullHouse_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Small straight" Width="100"/>
-                        <Button x:Name="smallStraight" Width="50" Height="20" Background="White" Click="SmallStraight_Click"/>
+                        <Button Content="{Binding SmallStraight}" Width="50" Height="20" Background="White" Click="SmallStraight_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Large straight" Width="100"/>
-                        <Button x:Name="largeStraight" Width="50" Height="20" Background="White" Click="LargeStraight_Click"/>
+                        <Button Content="{Binding LargeStraight}" Width="50" Height="20" Background="White" Click="LargeStraight_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Yatzy" Width="100"/>
-                        <Button x:Name="yatzy" Width="50" Height="20" Background="White" Click="Yatzy_Click"/>
+                        <Button Content="{Binding Yatzy}" Width="50" Height="20" Background="White" Click="Yatzy_Click"/>
                     </StackPanel>
                     <Separator/>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Chance" Width="100"/>
-                        <Button x:Name="chance" Width="50" Height="20" Background="White" Click="Chance_Click"/>
+                        <Button Content="{Binding Chance}" Width="50" Height="20" Background="White" Click="Chance_Click"/>
                     </StackPanel>
                     <Separator/>
                     <Label Content="Total score:" FontWeight="Bold"/>

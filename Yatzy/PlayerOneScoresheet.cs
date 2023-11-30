@@ -24,9 +24,9 @@ namespace Yatzy
 
         public string Sixes { get; set; }
 
-        public int Subscore { get; set; }
+        public string Subscore { get; set; }
 
-        public int Bonus { get; set; }
+        public string Bonus { get; set; }
 
         public string OnePair { get; set; }
 
@@ -38,13 +38,13 @@ namespace Yatzy
 
         public string FullHouse { get; set; }
 
-        public int SmallStraight { get; set; }
+        public string SmallStraight { get; set; }
 
         public string LargeStraight { get; set; }
 
         public string Yatzy { get; set; }
 
-        public int Chance { get; set; }
+        public string Chance { get; set; }
 
         public string TotalScore { get; set; }
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -22,7 +24,7 @@ namespace Yatzy
     public partial class MainWindow : Window
     {
 
-        private Dice[] dices = new Dice[5];
+        private ObservableCollection<Dice> dices = new ObservableCollection<Dice>();
         public PlayerOneScoresheet scoresheet = new PlayerOneScoresheet();
 
         Random random = new Random();
@@ -34,10 +36,14 @@ namespace Yatzy
 
             DataContext = scoresheet;
 
-            for (int i = 0; i < dices.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                dices[i] = new Dice();
+                var dice = new Dice();
+                dice.Index = i;
+                dices.Add(dice);
             }
+
+            diceContainer.ItemsSource = dices;
         }
 
 
@@ -54,12 +60,6 @@ namespace Yatzy
                 }
             }
 
-            dice0.Content = dices[0].Value;
-            dice1.Content = dices[1].Value;
-            dice2.Content = dices[2].Value;
-            dice3.Content = dices[3].Value;
-            dice4.Content = dices[4].Value;
-
             if (rollDiceCounter == 3)
             {
                 rollDiceButton.IsEnabled = false;
@@ -70,11 +70,17 @@ namespace Yatzy
 
         private void IsChosen_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && rollDiceCounter > 0)
+            if (sender is ToggleButton toggleButton)
             {
-                int index = int.Parse(button.Name[4..]);
-                dices[index].IsChosen = true;
-                button.IsEnabled = false;
+                if (toggleButton.IsChecked == true)
+                {
+                    int selectedIndex = (int)toggleButton.Tag;
+                    MessageBox.Show(selectedIndex.ToString());
+                }
+                else
+                {
+
+                }
             }
         }
 
@@ -248,9 +254,9 @@ namespace Yatzy
             int valueOne = 0;
             int valueTwo = 0;
 
-            for (int i = 0; i < dices.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                for (int j = i + 1; j < dices.Length; j++)
+                for (int j = i + 1; j < 5; j++)
                 {
                     if (dices[i].Value == dices[j].Value)
                     {
@@ -275,11 +281,11 @@ namespace Yatzy
             int points = 0;
             bool isThreeOfAKind = false;
 
-            for (int i = 0; i < dices.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                for (int j = i + 1; j < dices.Length; j++)
+                for (int j = i + 1; j < 5; j++)
                 {
-                    for (int k = j + 1; k < dices.Length; k++)
+                    for (int k = j + 1; k < 5; k++)
                     {
                         if (dices[i].Value == dices[j].Value && dices[j].Value == dices[k].Value)
                         {
@@ -299,7 +305,7 @@ namespace Yatzy
                 {
                     scoresheet.ThreeOfAKind = points.ToString();
                     //threeOfAKind.Content = points.ToString();
-                    threeOfAKind.IsEnabled = false;
+                    //threeOfAKind.IsEnabled = false;
                 }
                 else
                 {
@@ -314,7 +320,7 @@ namespace Yatzy
                 {
                     scoresheet.ThreeOfAKind = 0.ToString();
                     //threeOfAKind.Content = 0.ToString();
-                    threeOfAKind.IsEnabled = false;
+                    //threeOfAKind.IsEnabled = false;
                 }
                 else
                 {
@@ -329,13 +335,13 @@ namespace Yatzy
             int points = 0;
             bool isFourOfAKind = false;
 
-            for (int i = 0; i < dices.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
-                for (int j = i + 1; j < dices.Length; j++)
+                for (int j = i + 1; j < 5; j++)
                 {
-                    for (int k = j + 1; k < dices.Length; k++)
+                    for (int k = j + 1; k < 5; k++)
                     {
-                        for (int l = k + 1; l < dices.Length; l++)
+                        for (int l = k + 1; l < 5; l++)
                         {
                             if (dices[i].Value == dices[j].Value && dices[j].Value == dices[k].Value && dices[k].Value == dices[l].Value)
                             {
@@ -356,7 +362,7 @@ namespace Yatzy
                 {
                     scoresheet.FourOfAKind = points.ToString();
                     //fourOfAKind.Content = points.ToString();
-                    fourOfAKind.IsEnabled = false;
+                    //fourOfAKind.IsEnabled = false;
                 }
                 else
                 {
@@ -371,7 +377,7 @@ namespace Yatzy
                 {
                     scoresheet.FourOfAKind = 0.ToString();
                     //fourOfAKind.Content = 0.ToString();
-                    fourOfAKind.IsEnabled = false;
+                    //fourOfAKind.IsEnabled = false;
                 }
                 else
                 {
@@ -390,7 +396,7 @@ namespace Yatzy
             int[] smallStraightArray = { 1, 2, 3, 4, 5 };
             int[] diceArray = new int[5];
 
-            for (int i = 0; i < dices.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
                 diceArray[i] = dices[i].Value;
             }
@@ -403,8 +409,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.SmallStraight = 15;
-                    smallStraight.Content = 15.ToString();
+                    scoresheet.SmallStraight = 15.ToString();
+                    //smallStraight.Content = 15.ToString();
                 }
                 else
                 {
@@ -417,8 +423,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.SmallStraight = 0;
-                    smallStraight.Content = 0.ToString();
+                    scoresheet.SmallStraight = 0.ToString();
+                    //smallStraight.Content = 0.ToString();
                 }
                 else
                 {
@@ -432,7 +438,7 @@ namespace Yatzy
             int[] largeStraightArray = { 2, 3, 4, 5, 6 };
             int[] diceArray = new int[5];
 
-            for (int i = 0; i < dices.Length; i++)
+            for (int i = 0; i < 5; i++)
             {
                 diceArray[i] = dices[i].Value;
             }
@@ -446,7 +452,7 @@ namespace Yatzy
                 if (result == MessageBoxResult.Yes)
                 {
                     scoresheet.LargeStraight = 20.ToString();
-                    largeStraight.Content = 20.ToString();
+                    //largeStraight.Content = 20.ToString();
                 }
                 else
                 {
@@ -526,8 +532,8 @@ namespace Yatzy
 
             if (result == MessageBoxResult.Yes)
             {
-                scoresheet.Chance = points;
-                chance.Content = points.ToString();
+                scoresheet.Chance = points.ToString();
+                //chance.Content = points.ToString();
             }
             else
             {
