@@ -91,17 +91,20 @@ namespace Yatzy
 
         private void DiceIsChosen_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is ToggleButton toggleButton)
+            if (sender is Button button)
             {
-                if (toggleButton.IsChecked == true)
+                int selectedIndex = (int)button.Tag;
+                if (dices[selectedIndex].IsChosen == false)
                 {
-                    int selectedIndex = (int)toggleButton.Tag;
                     dices[selectedIndex].IsChosen = true;
+                    button.BorderBrush = Brushes.Green;
+                    button.BorderThickness = new Thickness(3);
                 }
                 else
                 {
-                    int selectedIndex = (int)toggleButton.Tag;
                     dices[selectedIndex].IsChosen = false;
+                    button.ClearValue(BorderBrushProperty);
+                    button.ClearValue(BorderThicknessProperty);
                 }
             }
         }

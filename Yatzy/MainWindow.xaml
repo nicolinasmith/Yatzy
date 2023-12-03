@@ -46,10 +46,9 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <ToggleButton Width="50" Height="50" Click="DiceIsChosen_Click" FontWeight="Bold" 
-                          IsHitTestVisible="True" Tag="{Binding Index}" 
-                          IsChecked="{Binding IsChosen, Mode=TwoWay}" Margin="5"
-                          Background="{Binding DiceStatus, Converter={StaticResource DiceConverter}}" />
+                        <Button Width="50" Height="50" Click="DiceIsChosen_Click" FontWeight="Bold" Padding="0" 
+                                IsHitTestVisible="True" Tag="{Binding Index}" Margin="5"
+                                Background="{Binding DiceStatus, Converter={StaticResource DiceConverter}}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

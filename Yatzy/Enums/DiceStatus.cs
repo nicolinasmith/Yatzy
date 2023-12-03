@@ -10,4 +10,5 @@ namespace Yatzy.Enums
     {
         Zero, One, Two, Three, Four, Five, Six
     }
+
 }
