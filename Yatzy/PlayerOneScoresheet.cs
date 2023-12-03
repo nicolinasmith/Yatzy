@@ -10,7 +10,7 @@ namespace Yatzy
 {
     public class PlayerOneScoresheet: INotifyPropertyChanged
     {
-        public string PlayerName { get; set; } = "Nicolina";
+        public string PlayerName { get; set; }
 
         public string Ones { get; set; }
 
