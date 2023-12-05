@@ -28,16 +28,18 @@ namespace Yatzy
     {
 
         private ObservableCollection<Dice> dices = new ObservableCollection<Dice>();
-        public PlayerOneScoresheet scoresheet = new PlayerOneScoresheet();
+        public PlayerOneScoreSheet schoreSheet = new PlayerOneScoreSheet();
 
         Random random = new Random();
         int rollDiceCounter = 0;
+        int topScoreSheetCount = 0;
+        int totalScoreScheetCount = 0;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = scoresheet;
+            DataContext = schoreSheet;
 
             for (int i = 0; i < 5; i++)
             {
@@ -47,7 +49,7 @@ namespace Yatzy
             }
 
             diceContainer.ItemsSource = dices;
-            scoresheet.PlayerName = "Nicolina";
+            schoreSheet.PlayerName = "Nicolina";
         }
 
 
@@ -59,7 +61,7 @@ namespace Yatzy
 
             foreach (var dice in dices)
             {
-                if (dice.IsChosen == false)
+                if (dice.IsChosen == DiceChosen.False)
                 {
                     dice.Value = random.Next(1, 7);
                     dice.DiceStatus = (DiceStatus)dice.Value;
@@ -83,28 +85,24 @@ namespace Yatzy
 
             foreach(var dice in dices)
             {
-                dice.IsChosen = false;
                 dice.Value = 0;
-                dice.DiceStatus= (DiceStatus)dice.Value;
+                dice.DiceStatus = (DiceStatus)dice.Value;
+                dice.IsChosen = DiceChosen.False;
             }
         }
 
         private void DiceIsChosen_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button)
+            if (sender is Rectangle rectangle)
             {
-                int selectedIndex = (int)button.Tag;
-                if (dices[selectedIndex].IsChosen == false)
+                int selectedIndex = (int)rectangle.Tag;
+                if (dices[selectedIndex].IsChosen == DiceChosen.True)
                 {
-                    dices[selectedIndex].IsChosen = true;
-                    button.BorderBrush = Brushes.Green;
-                    button.BorderThickness = new Thickness(3);
+                    dices[selectedIndex].IsChosen = DiceChosen.False;
                 }
                 else
                 {
-                    dices[selectedIndex].IsChosen = false;
-                    button.ClearValue(BorderBrushProperty);
-                    button.ClearValue(BorderThicknessProperty);
+                    dices[selectedIndex].IsChosen = DiceChosen.True;
                 }
             }
         }
@@ -127,12 +125,18 @@ namespace Yatzy
 
             if (result == MessageBoxResult.Yes)
             {
-                typeof(PlayerOneScoresheet).GetProperty(stringNumber)?.SetValue(scoresheet, points.ToString());
+                typeof(PlayerOneScoreSheet).GetProperty(stringNumber)?.SetValue(schoreSheet, points.ToString());
                 NewRollTries();
+                topScoreSheetCount++;
                 
                 if (sender is Button button)
                 {
                     button.IsEnabled = false;
+                }
+
+                if (topScoreSheetCount == 6) 
+                {
+                    CountSubscore();
                 }
             }
             else
@@ -218,7 +222,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.OnePair = highestSum.ToString();
+                    schoreSheet.OnePair = highestSum.ToString();
+                    totalScoreScheetCount++;
                     NewRollTries();
 
                     if (sender is Button button)
@@ -238,7 +243,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.OnePair = sumPair.ToString();
+                    schoreSheet.OnePair = sumPair.ToString();
+                    totalScoreScheetCount++;
                     NewRollTries();
 
                     if (sender is Button button)
@@ -257,7 +263,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.OnePair = 0.ToString();
+                    schoreSheet.OnePair = 0.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -307,7 +314,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.TwoPairs = totalSum.ToString();
+                    schoreSheet.TwoPairs = totalSum.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -326,7 +334,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.TwoPairs = 0.ToString();
+                    schoreSheet.TwoPairs = 0.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -369,7 +378,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.ThreeOfAKind = points.ToString();
+                    schoreSheet.ThreeOfAKind = points.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -388,7 +398,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.ThreeOfAKind = 0.ToString();
+                    schoreSheet.ThreeOfAKind = 0.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -434,7 +445,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.FourOfAKind = points.ToString();
+                    schoreSheet.FourOfAKind = points.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -453,7 +465,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.FourOfAKind = 0.ToString();
+                    schoreSheet.FourOfAKind = 0.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -495,7 +508,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.FullHouse = totalSum.ToString();
+                    schoreSheet.FullHouse = totalSum.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -514,7 +528,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.FullHouse = 0.ToString();
+                    schoreSheet.FullHouse = 0.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -548,7 +563,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.SmallStraight = 15.ToString();
+                    schoreSheet.SmallStraight = 15.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -567,7 +583,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.SmallStraight = 0.ToString();
+                    schoreSheet.SmallStraight = 0.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -600,7 +617,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.LargeStraight = 20.ToString();
+                    schoreSheet.LargeStraight = 20.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -619,7 +637,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.LargeStraight = 0.ToString();
+                    schoreSheet.LargeStraight = 0.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -654,7 +673,8 @@ namespace Yatzy
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.Yatzy = 50.ToString();
+                    schoreSheet.Yatzy = 50.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -673,7 +693,8 @@ namespace Yatzy
                 
                 if (result == MessageBoxResult.Yes)
                 {
-                    scoresheet.Yatzy = 0.ToString();
+                    schoreSheet.Yatzy = 0.ToString();
+                    CheckIfGameFinished();
                     NewRollTries();
 
                     if (sender is Button button)
@@ -701,7 +722,8 @@ namespace Yatzy
 
             if (result == MessageBoxResult.Yes)
             {
-                scoresheet.Chance = points.ToString();
+                schoreSheet.Chance = points.ToString();
+                CheckIfGameFinished();
                 NewRollTries();
 
                 if (sender is Button button)
@@ -715,41 +737,40 @@ namespace Yatzy
             }
         }
 
-        private void CountSubscore_Click(object sender, RoutedEventArgs e)
+        private void CountSubscore()
         {
-            if (scoresheet.Ones == null || scoresheet.Twos == null || scoresheet.Threes == null || scoresheet.Fours == null || scoresheet.Fives == null || scoresheet.Sixes == null)
+            if (schoreSheet.Ones == null || schoreSheet.Twos == null || schoreSheet.Threes == null || schoreSheet.Fours == null || schoreSheet.Fives == null || schoreSheet.Sixes == null)
             {
                 MessageBox.Show("All options above need to have a value to calculate the subscore.");
                 return;
             }
             else
             {
-                int subscore = int.Parse(scoresheet.Ones) + int.Parse(scoresheet.Twos) + int.Parse(scoresheet.Threes) + int.Parse(scoresheet.Fours) + int.Parse(scoresheet.Fives) + int.Parse(scoresheet.Sixes);
-                scoresheet.Subscore = subscore.ToString();
+                int subscore = int.Parse(schoreSheet.Ones) + int.Parse(schoreSheet.Twos) + int.Parse(schoreSheet.Threes) + int.Parse(schoreSheet.Fours) + int.Parse(schoreSheet.Fives) + int.Parse(schoreSheet.Sixes);
+                schoreSheet.Subscore = subscore.ToString();
 
-                if (subscore > 62) 
-                { 
-                    scoresheet.Bonus = 50.ToString();
+                if (subscore > 62)
+                {
+                    schoreSheet.Bonus = 50.ToString();
                 }
                 else
                 {
-                    scoresheet.Bonus = 0.ToString();
+                    schoreSheet.Bonus = 0.ToString();
                 }
             }
-
         }
 
-        private void CountTotalScore_Click(object senter,  RoutedEventArgs e)
+        private void CheckIfGameFinished()
         {
-            if (scoresheet.Subscore == null || scoresheet.FullHouse == null || scoresheet.OnePair == null || scoresheet.TwoPairs == null || scoresheet.SmallStraight == null || scoresheet.LargeStraight == null || scoresheet.ThreeOfAKind == null || scoresheet.FourOfAKind == null || scoresheet.Yatzy == null || scoresheet.Chance == null)
+            totalScoreScheetCount++;
+            if (topScoreSheetCount == 6 && totalScoreScheetCount == 9)
             {
-                MessageBox.Show("All options above need to have a value to calculate the total score.");
-                return;
+                int totalScore = int.Parse(schoreSheet.Subscore) + int.Parse(schoreSheet.Bonus) + int.Parse(schoreSheet.OnePair) + int.Parse(schoreSheet.TwoPairs) + int.Parse(schoreSheet.ThreeOfAKind) + int.Parse(schoreSheet.FourOfAKind) + int.Parse(schoreSheet.FullHouse) + int.Parse(schoreSheet.SmallStraight) + int.Parse(schoreSheet.LargeStraight) + int.Parse(schoreSheet.Yatzy) + int.Parse(schoreSheet.Chance);
+                schoreSheet.TotalScore = totalScore.ToString();
             }
             else
             {
-                int totalScore = int.Parse(scoresheet.Subscore) + int.Parse(scoresheet.Bonus) + int.Parse(scoresheet.OnePair) + int.Parse(scoresheet.TwoPairs) + int.Parse(scoresheet.ThreeOfAKind) + int.Parse(scoresheet.FourOfAKind) + int.Parse(scoresheet.FullHouse) + int.Parse(scoresheet.SmallStraight) + int.Parse(scoresheet.LargeStraight) + int.Parse(scoresheet.Yatzy) + int.Parse(scoresheet.Chance);
-                scoresheet.TotalScore = totalScore.ToString();
+                return;
             }
         }
 

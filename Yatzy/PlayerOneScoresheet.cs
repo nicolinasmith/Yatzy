@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Yatzy
 {
-    public class PlayerOneScoresheet: INotifyPropertyChanged
+    public class PlayerOneScoreSheet: INotifyPropertyChanged
     {
         public string? PlayerName { get; set; }
 

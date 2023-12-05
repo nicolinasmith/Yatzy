@@ -14,9 +14,18 @@ namespace Yatzy
     {
         public int Value { get; set; }
 
-        public bool IsChosen { get; set; }
+        //public bool IsChosen { get; set; }
 
         public int Index { get; set; }
+
+        public DiceChosen IsChosen
+        {
+            get { return (DiceChosen)GetValue(IsChosenProperty); }
+            set { SetValue(IsChosenProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsChosenProperty =
+            DependencyProperty.Register("DiceChosen", typeof(DiceChosen), typeof(Dice), new PropertyMetadata(DiceChosen.False));
 
         public DiceStatus DiceStatus
         {
@@ -28,7 +37,7 @@ namespace Yatzy
             DependencyProperty.Register("DiceStatus", typeof(DiceStatus), typeof(Dice), new PropertyMetadata(DiceStatus.Zero));
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler ?PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
