@@ -10,6 +10,7 @@
         WindowState="Maximized">
     <Window.Resources>
         <converter:DiceConverter x:Key="DiceConverter"/>
+        <converter:ChosenConverter x:Key="ChosenConverter"/>
     </Window.Resources>
     <Grid Background="#FFEDC442">
         <Grid.ColumnDefinitions>
@@ -25,20 +26,20 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Top">
-            <Button Content="Rules"  Width="65" Height="20" Background="Black" Foreground="White" Margin="15 15 5 0" BorderBrush="Black"/>
-            <Button x:Name="restartButton" Content="Restart"  Width="65" Height="20" Click="RestartButton_Click" Background="Black" Foreground="White" Margin="0 15 0 0" BorderBrush="Black"/>
-            <Button Content="Score board"  Width="70" Height="20" Background="Black" Foreground="White" Margin="5 15 0 0" BorderBrush="Black"/>
+            <Button Content="Rules"  Width="75" Height="30" Background="Black" Foreground="White" Margin="15 15 5 0" BorderBrush="Black"/>
+            <Button x:Name="restartButton" Content="Restart"  Width="75" Height="30" Click="RestartButton_Click" Background="Black" Foreground="White" Margin="0 15 0 0" BorderBrush="Black"/>
+            <Button Content="Score board"  Width="80" Height="30" Background="Black" Foreground="White" Margin="5 15 0 0" BorderBrush="Black"/>
         </StackPanel>
         <Label Content="YATZY" FontFamily="Stencil" FontSize="80" HorizontalContentAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2"/>
 
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
             <Label x:Name="rollDiceReminder" Content="Time to roll the dices!" HorizontalAlignment="Center" FontWeight="Bold"/>
-            <Button x:Name="rollDiceButton" Content="Roll dices" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" Click="RollDice_Click" Height="33" Background="White" BorderThickness="2" Margin="10"/>
+            <Button x:Name="rollDiceButton" Content="Roll dices" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="120" Click="RollDice_Click" Height="33" Background="White" BorderThickness="2" BorderBrush="Black" Margin="10"/>
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                     <Label Content="Number of rolls:"/>
                     <Label x:Name="rollCounter" Content="0 of 3"/>
                 </StackPanel>
-            <ListBox x:Name="diceContainer" Height="70" Width="420" BorderThickness="0" Background="#FFEDC442">
+            <ListBox x:Name="diceContainer" Height="90" Width="480" BorderThickness="0" Padding="0" Background="#FFEDC442">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -46,9 +47,11 @@
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Button Width="50" Height="50" Click="DiceIsChosen_Click" FontWeight="Bold" Padding="0" 
-                                IsHitTestVisible="True" Tag="{Binding Index}" Margin="5"
-                                Background="{Binding DiceStatus, Converter={StaticResource DiceConverter}}"/>
+                       <Rectangle Width="70" Height="70" MouseLeftButtonDown="DiceIsChosen_Click" 
+                            Tag="{Binding Index}" Margin="5"
+                            Fill="{Binding DiceStatus, Converter={StaticResource DiceConverter}}"
+                            Stroke="{Binding DiceChosen, Converter={StaticResource ChosenConverter}}" 
+                            StrokeThickness="3"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -93,7 +96,6 @@
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Subscore:" FontWeight="Bold" Margin="25 0 0 0" Width="100" Foreground="White"/>
                         <Button Content="{Binding Subscore}" Width="50" Height="20" Background="White" IsEnabled="False"/>
-                        <Button Content="Count" Width="40" Height="20" Background="#FFEDC442" Margin="15 0 0 0" Click="CountSubscore_Click" BorderBrush="Black"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Bonus:" Margin="25 0 0 0" Width="100" Foreground="White"/>
@@ -149,7 +151,6 @@
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Total score:" FontWeight="Bold" Margin="25 0 0 0" Width="100" Foreground="White"/>
                     <Button Content="{Binding TotalScore}" Width="50" Height="20" Background="White" IsEnabled="False"/>
-                    <Button Content="Count" Width="40" Height="20" Background="#FFEDC442" Margin="15 0 0 0" Click="CountTotalScore_Click" BorderBrush="Black"/>
                 </StackPanel>
             </StackPanel>
         </Border>
