@@ -25,6 +25,15 @@ namespace Yatzy
         public static readonly DependencyProperty IsChosenProperty =
             DependencyProperty.Register("DiceChosen", typeof(DiceChosen), typeof(Dice), new PropertyMetadata(DiceChosen.False));
 
+        public DiceChosen IsChosen
+        {
+            get { return (DiceChosen)GetValue(IsChosenProperty); }
+            set { SetValue(IsChosenProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsChosenProperty =
+            DependencyProperty.Register("DiceChosen", typeof(DiceChosen), typeof(Dice), new PropertyMetadata(DiceChosen.False));
+
         public DiceStatus DiceStatus
         {
             get { return (DiceStatus)GetValue(DiceStatusProperty); }
